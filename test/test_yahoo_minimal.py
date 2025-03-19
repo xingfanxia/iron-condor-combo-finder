@@ -2,6 +2,8 @@
 
 """
 Minimal test for Yahoo price fetching.
+
+This file doesn't import from src/, so it can be run from anywhere.
 """
 
 import requests
