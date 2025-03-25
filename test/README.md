@@ -14,6 +14,14 @@ This directory contains unit tests for the Iron Condor Finder application. The t
 - `test_visualization.py`: Tests for chart generation
 - `test_basic_iron_condor_finder.py`: Simple test showing the core iron condor finding algorithm with mock data
 
+## Test Files
+
+### API Tests
+- `test_schwab_api.py` - Tests the Schwab API connection and authentication
+- `quick_test_schwab.py` - Tests the Iron Condor Finder with Schwab API integration
+
+### Unit Tests
+
 ## Setup
 
 Install the test dependencies:

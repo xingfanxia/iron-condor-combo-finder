@@ -115,13 +115,22 @@ class ChartGenerator:
         plt.ylabel('Profit/Loss ($)', fontsize=12)
         
         # Add profit metrics as text
-        plt.text(0.02, 0.02, 
-                f'Net Credit: ${net_credit:.2f}\n'
-                f'Max Loss: ${ic_data["max_loss"]:.2f}\n'
-                f'P(Profit): {ic_data["prob_profit"]*100:.1f}%\n'
-                f'Expected Profit: ${ic_data["expected_profit"]:.2f}',
-                transform=plt.gca().transAxes, fontsize=10,
-                bbox=dict(facecolor='white', alpha=0.7))
+        # Calculate max profit and collateral
+        max_profit = net_credit * 100
+        max_width = max(long_call_strike - short_call_strike, short_put_strike - long_put_strike)
+        collateral = max_width * 100 - max_profit
+        
+        text = plt.text(0.05, 0.05, 
+                  f'Iron Condor: {long_put_strike} / {short_put_strike} / {short_call_strike} / {long_call_strike}\n'
+                  f'Expiration: {ic_data["expiration"]} (DTE: {ic_data["dte"]})\n'
+                  f'Current Price: ${current_price:.2f}\n'
+                  f'Net Credit: ${net_credit:.2f}\n'
+                  f'Max Loss: ${ic_data["max_loss"]:.2f}\n'
+                  f'Max Profit: ${max_profit:.2f} | Collateral: ${collateral:.2f}\n'
+                  f'P(Profit): {ic_data["probability_of_profit"]:.1f}%\n'
+                  f'Expected Profit: ${ic_data["expected_profit"]:.2f}',
+                  transform=plt.gca().transAxes, fontsize=10,
+                  bbox=dict(facecolor='white', alpha=0.7))
         
         # Add legend
         plt.legend()

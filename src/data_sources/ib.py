@@ -98,8 +98,8 @@ class IBDataSource(DataSourceBase):
             # Don't disconnect yet as we'll need the client for options chain
             pass
     
-    def get_options_chain(self):
-        """Fetch options chain from Interactive Brokers API"""
+    def get_option_chain(self):
+        """Get options chain from Interactive Brokers API"""
         # Check if we have a valid cached version
         current_time = datetime.datetime.now().timestamp()
         cache_key = f"{self.symbol}_{self.min_dte}_{self.max_dte}_{self.min_liquidity}"
@@ -117,7 +117,7 @@ class IBDataSource(DataSourceBase):
             
         # Make sure we have current price
         if not self.current_price:
-            self.get_current_price()
+            self.current_price = self.get_current_price()
         
         try:
             # Get today's date and calculate expiration date range
@@ -359,7 +359,7 @@ class IBDataSource(DataSourceBase):
             return result
             
         except Exception as e:
-            print(f"Error accessing Interactive Brokers API: {e}")
+            print(f"⚠️ IB API ERROR accessing data: {e}")
             raise
         finally:
             # Disconnect from IB

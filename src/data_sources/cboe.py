@@ -1,7 +1,7 @@
-"""CBOE data source for options chains"""
+"""CBOE Options data source"""
 
 import os
-import datetime
+import datetime  # Required for datetime operations
 import requests
 from dotenv import load_dotenv
 
@@ -12,14 +12,14 @@ load_dotenv()
 
 
 class CBOEDataSource(DataSourceBase):
-    """CBOE data source for options chains"""
+    """CBOE Options data source for options chains"""
     
     def __init__(self, symbol, min_dte, max_dte, min_liquidity):
         super().__init__(symbol, min_dte, max_dte, min_liquidity)
         self.api_key = os.getenv('CBOE_API_KEY')
     
-    def get_options_chain(self):
-        """Fetch options chain from CBOE Options Data API"""
+    def get_option_chain(self):
+        """Get options chain from CBOE API"""
         if not self.api_key:
             raise ValueError("CBOE API key not found. Please set it in your .env file.")
             
@@ -37,7 +37,7 @@ class CBOEDataSource(DataSourceBase):
         
         # Make sure we have current price
         if not self.current_price:
-            self.get_current_price()
+            self.current_price = self.get_current_price()
             
         if not self.current_price:
             raise ValueError("Could not determine current price for strike range")
